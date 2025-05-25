@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hifz Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    .tracker {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label, input, select, textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+    .log {
+      margin-top: 20px;
+      background: #e8f5e9;
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="tracker">
+    <h2>Daily Hifz Tracker</h2>
+    <label for="date">Date:</label>
+    <input type="date" id="date" />
+
+    <label for="sabaq">New Memorization (Sabaq):</label>
+    <input type="text" id="sabaq" placeholder="e.g., Surah Baqarah: 1-5" />
+
+    <label for="sabqi">Revision (Sabqi):</label>
+    <input type="text" id="sabqi" placeholder="e.g., Surah Mulk: full" />
+
+    <label for="manzil">Old Revision (Manzil):</label>
+    <input type="text" id="manzil" placeholder="e.g., Juz 30" />
+
+    <label for="notes">Notes / Weak Ayahs:</label>
+    <textarea id="notes" rows="3"></textarea>
+
+    <button onclick="saveLog()">Save</button>
+
+    <div id="log" class="log"></div>
+  </div>
+
+  <script>
+    function saveLog() {
+      const date = document.getElementById('date').value;
+      const sabaq = document.getElementById('sabaq').value;
+      const sabqi = document.getElementById('sabqi').value;
+      const manzil = document.getElementById('manzil').value;
+      const notes = document.getElementById('notes').value;
+
+      const entry = `<strong>${date}</strong><br>Sabaq: ${sabaq}<br>Sabqi: ${sabqi}<br>Manzil: ${manzil}<br>Notes: ${notes}<hr>`;
+
+      document.getElementById('log').innerHTML = entry + document.getElementById('log').innerHTML;
+
+      document.getElementById('date').value = "";
+      document.getElementById('sabaq').value = "";
+      document.getElementById('sabqi').value = "";
+      document.getElementById('manzil').value = "";
+      document.getElementById('notes').value = "";
+    }
+  </script>
+</body>
+</html>
